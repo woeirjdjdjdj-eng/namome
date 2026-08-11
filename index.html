@@ -3,112 +3,644 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>เข้าสู่ระบบ</title>
+<title>NEXORA — เข้าสู่ระบบ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
-  body {
+  :root{
+    --bg: #08080f;
+    --bg-2: #0d0e1a;
+    --panel: #12131f;
+    --panel-2: #171826;
+    --line: #242539;
+    --violet: #7c5cfc;
+    --violet-2: #a78bfa;
+    --cyan: #00e5ff;
+    --magenta: #ff2e7e;
+    --text: #f1f1fa;
+    --muted: #8a8ba3;
+    --muted-2: #5c5d78;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    font-family:'Sarabun', sans-serif;
+    background: var(--bg);
+    color: var(--text);
     min-height:100vh;
+    display:flex;
+    overflow-x:hidden;
+  }
+  ::selection{ background: var(--violet); color:#fff; }
+
+  /* ---------- layout ---------- */
+  .wrap{
+    display:flex;
+    width:100%;
+    min-height:100vh;
+  }
+
+  /* ================= LEFT: hero ================= */
+  .hero{
+    position:relative;
+    flex:1.15;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding: 48px 56px;
+    background:
+      radial-gradient(ellipse 900px 600px at 20% 15%, rgba(124,92,252,0.35), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 85% 80%, rgba(0,229,255,0.18), transparent 60%),
+      linear-gradient(180deg, var(--bg-2), var(--bg) 70%);
+    overflow:hidden;
+    min-height: 100vh;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(124,92,252,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,92,252,0.06) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: radial-gradient(ellipse 700px 700px at 30% 30%, black, transparent 70%);
+    pointer-events:none;
+  }
+
+  .brand{
+    display:flex; align-items:center; gap:12px;
+    position:relative; z-index:2;
+  }
+  .brand-mark{
+    width:38px; height:38px;
+    display:grid; place-items:center;
+    position:relative;
+  }
+  .brand-mark svg{ width:100%; height:100%; }
+  .brand-name{
+    font-family:'Chakra Petch', sans-serif;
+    font-weight:700;
+    font-size:22px;
+    letter-spacing:0.06em;
+  }
+  .brand-name span{ color: var(--cyan); }
+
+  /* signature: rank crest */
+  .crest-zone{
+    position:relative; z-index:2;
+    display:flex; flex-direction:column; align-items:flex-start;
+    gap:28px;
+    margin: 12px 0;
+  }
+  .eyebrow{
+    font-family:'Chakra Petch', sans-serif;
+    font-size:12.5px;
+    letter-spacing:0.28em;
+    color: var(--cyan);
+    text-transform:uppercase;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{
+    content:""; width:20px; height:1px; background: var(--cyan);
+  }
+  .hero h1{
+    font-family:'Chakra Petch', sans-serif;
+    font-weight:700;
+    font-size: clamp(34px, 4vw, 50px);
+    line-height:1.12;
+    letter-spacing:-0.01em;
+  }
+  .hero h1 em{
+    font-style:normal;
+    background: linear-gradient(90deg, var(--violet-2), var(--cyan));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .hero p.lead{
+    color: var(--muted);
+    font-size:15.5px;
+    max-width: 420px;
+    line-height:1.7;
+  }
+
+  .crest{
+    position:relative;
+    width:280px; height:280px;
+    margin-top:8px;
+  }
+  .crest svg{ width:100%; height:100%; }
+  .crest .ring-outer{
+    transform-origin:140px 140px;
+    animation: spin 26s linear infinite;
+  }
+  .crest .ring-inner{
+    transform-origin:140px 140px;
+    animation: spin-rev 18s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+  @keyframes spin-rev{ to{ transform:rotate(-360deg); } }
+  .crest-level{
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:2px;
+  }
+  .crest-level .lv{
+    font-family:'Chakra Petch', sans-serif;
+    font-size:11px; letter-spacing:0.2em; color:var(--muted);
+  }
+  .crest-level .num{
+    font-family:'Chakra Petch', sans-serif;
+    font-size:44px; font-weight:700;
+    background: linear-gradient(180deg, #fff, var(--violet-2));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+
+  .stat-row{
+    position:relative; z-index:2;
+    display:flex; gap:36px;
+    margin-top:6px;
+  }
+  .stat{ display:flex; flex-direction:column; gap:6px; }
+  .stat .n{
+    font-family:'Chakra Petch', sans-serif;
+    font-size:22px; font-weight:600;
+  }
+  .stat .l{ font-size:12.5px; color: var(--muted-2); letter-spacing:0.03em; }
+  .stat .bar{
+    width:64px; height:3px; background: var(--line); border-radius:2px; overflow:hidden;
+  }
+  .stat .bar i{
+    display:block; height:100%;
+    background: linear-gradient(90deg, var(--violet), var(--cyan));
+  }
+
+  .hero-foot{
+    position:relative; z-index:2;
+    display:flex; align-items:center; gap:18px;
+    color: var(--muted-2);
+    font-size:12.5px;
+  }
+  .hero-foot .dot{ width:5px; height:5px; border-radius:50%; background: var(--muted-2); }
+
+  /* ================= RIGHT: form ================= */
+  .panel{
+    flex:1;
     display:flex;
     align-items:center;
     justify-content:center;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    padding: 40px 32px;
+    background: var(--bg);
+    position:relative;
   }
-  .login-box {
-    background:#fff;
-    padding:40px 30px;
-    border-radius:16px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  .card{
     width:100%;
-    max-width:360px;
+    max-width: 400px;
   }
-  .login-box h2 {
-    text-align:center;
-    margin-bottom:24px;
-    color:#333;
+
+  .tabs{
+    display:flex;
+    background: var(--panel);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:4px;
+    margin-bottom:32px;
+    position:relative;
   }
-  .input-group { margin-bottom:18px; }
-  .input-group label {
-    display:block;
-    margin-bottom:6px;
-    font-size:14px;
-    color:#555;
-  }
-  .input-group input {
-    width:100%;
-    padding:12px 14px;
-    border:1px solid #ddd;
-    border-radius:8px;
-    font-size:15px;
-    outline:none;
-    transition:border 0.2s;
-  }
-  .input-group input:focus { border-color:#764ba2; }
-  .login-btn {
-    width:100%;
-    padding:12px;
-    background:#764ba2;
-    color:#fff;
+  .tabs button{
+    flex:1;
+    background:transparent;
     border:none;
-    border-radius:8px;
-    font-size:16px;
+    color: var(--muted);
+    font-family:'Chakra Petch', sans-serif;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:0.04em;
+    padding:11px 0;
+    border-radius:7px;
     cursor:pointer;
-    transition:background 0.2s;
+    position:relative;
+    z-index:2;
+    transition: color .25s ease;
   }
-  .login-btn:hover { background:#5e3a85; }
-  .error-msg {
-    color:#e74c3c;
+  .tabs button.active{ color:#08080f; }
+  .tabs .slider{
+    position:absolute;
+    top:4px; left:4px;
+    width: calc(50% - 4px);
+    height: calc(100% - 8px);
+    background: linear-gradient(90deg, var(--cyan), var(--violet-2));
+    border-radius:7px;
+    transition: transform .3s cubic-bezier(.65,0,.35,1);
+    z-index:1;
+  }
+  .tabs button:nth-child(2).active ~ .slider,
+  .tabs.reg .slider{ transform: translateX(100%); }
+
+  .card h2{
+    font-family:'Chakra Petch', sans-serif;
+    font-size:26px;
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .card p.sub{
+    color: var(--muted);
+    font-size:14px;
+    margin-bottom:28px;
+  }
+
+  form{ display:flex; flex-direction:column; gap:16px; }
+  .field{ display:flex; flex-direction:column; gap:7px; }
+  .field label{
+    font-size:12.5px;
+    color: var(--muted);
+    letter-spacing:0.02em;
+  }
+  .field .input-wrap{
+    position:relative;
+    display:flex; align-items:center;
+  }
+  .field input{
+    width:100%;
+    background: var(--panel);
+    border:1px solid var(--line);
+    color: var(--text);
+    font-family:'Sarabun', sans-serif;
+    font-size:15px;
+    padding: 13px 14px 13px 42px;
+    border-radius:9px;
+    outline:none;
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .field input::placeholder{ color: var(--muted-2); }
+  .field input:focus{
+    border-color: var(--violet-2);
+    background: var(--panel-2);
+    box-shadow: 0 0 0 3px rgba(124,92,252,0.18);
+  }
+  .field .icon{
+    position:absolute; left:14px;
+    width:17px; height:17px;
+    color: var(--muted-2);
+    display:grid; place-items:center;
+    pointer-events:none;
+  }
+  .field input:focus ~ .icon,
+  .field .input-wrap:focus-within .icon{ color: var(--cyan); }
+
+  .row-between{
+    display:flex; align-items:center; justify-content:space-between;
     font-size:13px;
-    text-align:center;
-    margin-top:10px;
-    min-height:16px;
+    margin-top:-2px;
   }
-  .extra-links {
+  .remember{ display:flex; align-items:center; gap:8px; color: var(--muted); cursor:pointer; user-select:none; }
+  .remember input{ accent-color: var(--violet); width:14px; height:14px; }
+  .row-between a{ color: var(--cyan); text-decoration:none; }
+  .row-between a:hover{ text-decoration:underline; }
+
+  .btn-submit{
+    margin-top:6px;
+    width:100%;
+    border:none;
+    border-radius:9px;
+    padding:14px 0;
+    font-family:'Chakra Petch', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    letter-spacing:0.03em;
+    color:#08080f;
+    background: linear-gradient(90deg, var(--cyan), var(--violet-2));
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    transition: transform .15s ease, box-shadow .25s ease;
+    box-shadow: 0 8px 24px -8px rgba(124,92,252,0.6);
+  }
+  .btn-submit:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px -6px rgba(0,229,255,0.5); }
+  .btn-submit:active{ transform: translateY(0px) scale(0.99); }
+
+  .divider{
+    display:flex; align-items:center; gap:14px;
+    color: var(--muted-2);
+    font-size:12.5px;
+    margin: 22px 0;
+  }
+  .divider::before, .divider::after{
+    content:""; flex:1; height:1px; background: var(--line);
+  }
+
+  .social{ display:flex; gap:12px; }
+  .social button{
+    flex:1;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    background: var(--panel);
+    border:1px solid var(--line);
+    color: var(--text);
+    font-family:'Sarabun', sans-serif;
+    font-size:13.5px;
+    padding:11px 0;
+    border-radius:9px;
+    cursor:pointer;
+    transition: border-color .2s ease, background .2s ease;
+  }
+  .social button:hover{ border-color: var(--muted-2); background: var(--panel-2); }
+  .social svg{ width:16px; height:16px; }
+
+  .switch-line{
     text-align:center;
-    margin-top:16px;
+    margin-top:26px;
+    font-size:13.5px;
+    color: var(--muted);
+  }
+  .switch-line a{ color: var(--cyan); text-decoration:none; font-weight:600; }
+  .switch-line a:hover{ text-decoration:underline; }
+
+  .error-msg{
+    min-height:18px;
     font-size:13px;
+    color: var(--magenta);
+    text-align:center;
   }
-  .extra-links a {
-    color:#764ba2;
-    text-decoration:none;
+  .success-msg{ color:#2fe6a7; }
+
+  /* form pane switching */
+  .pane{ display:none; }
+  .pane.active{ display:flex; flex-direction:column; }
+
+  .strength{
+    display:flex; gap:4px; margin-top:2px;
+  }
+  .strength i{
+    flex:1; height:3px; border-radius:2px; background: var(--line);
+    transition: background .25s ease;
+  }
+
+  @media (max-width: 900px){
+    .hero{ display:none; }
+    .panel{ padding: 28px 20px; }
   }
 </style>
 </head>
 <body>
 
-<div class="login-box">
-  <h2>เข้าสู่ระบบ</h2>
-  <form id="loginForm">
-    <div class="input-group">
-      <label for="username">ชื่อผู้ใช้</label>
-      <input type="text" id="username" placeholder="กรอกชื่อผู้ใช้" required>
+<div class="wrap">
+
+  <!-- ============ HERO / LEFT ============ -->
+  <aside class="hero">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg viewBox="0 0 40 40" fill="none">
+          <path d="M20 2 L36 11 V29 L20 38 L4 29 V11 Z" stroke="url(#g1)" stroke-width="2"/>
+          <path d="M20 10 L28 14.5 V25.5 L20 30 L12 25.5 V14.5 Z" fill="url(#g1)" opacity="0.85"/>
+          <defs>
+            <linearGradient id="g1" x1="4" y1="2" x2="36" y2="38" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#00E5FF"/>
+              <stop offset="1" stop-color="#7C5CFC"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="brand-name">NEXO<span>RA</span></div>
     </div>
-    <div class="input-group">
-      <label for="password">รหัสผ่าน</label>
-      <input type="password" id="password" placeholder="กรอกรหัสผ่าน" required>
+
+    <div class="crest-zone">
+      <div>
+        <div class="eyebrow">Digital Game Marketplace</div>
+        <h1>ปลดล็อกคลัง<br><em>เกมไม่จำกัด</em><br>ในที่เดียว</h1>
+        <p class="lead">คีย์เกมแท้ ราคาดีที่สุด ส่งไวใน 1 นาที พร้อมระบบสะสมแต้มแลกส่วนลดสำหรับสมาชิก</p>
+      </div>
+
+      <div class="crest">
+        <svg viewBox="0 0 280 280">
+          <g class="ring-outer">
+            <circle cx="140" cy="140" r="128" fill="none" stroke="#242539" stroke-width="1.5"/>
+            <circle cx="140" cy="140" r="128" fill="none" stroke="url(#g2)" stroke-width="2.5" stroke-dasharray="40 300"/>
+          </g>
+          <g class="ring-inner">
+            <circle cx="140" cy="140" r="102" fill="none" stroke="#1a1b2b" stroke-width="10"/>
+            <circle cx="140" cy="140" r="102" fill="none" stroke="url(#g3)" stroke-width="10" stroke-dasharray="180 500" stroke-linecap="round"/>
+          </g>
+          <circle cx="140" cy="140" r="80" fill="#0d0e1a" stroke="#242539" stroke-width="1"/>
+          <defs>
+            <linearGradient id="g2" x1="0" y1="0" x2="280" y2="280" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#00E5FF"/><stop offset="1" stop-color="#7C5CFC"/>
+            </linearGradient>
+            <linearGradient id="g3" x1="0" y1="0" x2="280" y2="280" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#7C5CFC"/><stop offset="1" stop-color="#FF2E7E"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="crest-level">
+          <div class="lv">MEMBER RANK</div>
+          <div class="num">42</div>
+          <div class="lv" style="color:var(--cyan)">DIAMOND</div>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat">
+          <div class="n">12,400+</div>
+          <div class="l">เกมในคลัง</div>
+          <div class="bar"><i style="width:82%"></i></div>
+        </div>
+        <div class="stat">
+          <div class="n">98%</div>
+          <div class="l">รีวิวเชื่อถือได้</div>
+          <div class="bar"><i style="width:98%"></i></div>
+        </div>
+        <div class="stat">
+          <div class="n">&lt;1 นาที</div>
+          <div class="l">ส่งคีย์อัตโนมัติ</div>
+          <div class="bar"><i style="width:95%"></i></div>
+        </div>
+      </div>
     </div>
-    <button type="submit" class="login-btn">เข้าสู่ระบบ</button>
-    <div class="error-msg" id="errorMsg"></div>
-  </form>
-  <div class="extra-links">
-    <a href="#">ลืมรหัสผ่าน?</a>
-  </div>
+
+    <div class="hero-foot">
+      <span>รองรับการชำระเงินหลายช่องทาง</span>
+      <span class="dot"></span>
+      <span>เข้ารหัส SSL 256-bit</span>
+    </div>
+  </aside>
+
+  <!-- ============ FORM / RIGHT ============ -->
+  <main class="panel">
+    <div class="card">
+
+      <div class="tabs" id="tabs">
+        <button type="button" class="active" data-target="login">เข้าสู่ระบบ</button>
+        <button type="button" data-target="register">สมัครสมาชิก</button>
+        <div class="slider"></div>
+      </div>
+
+      <!-- LOGIN PANE -->
+      <div class="pane active" id="pane-login">
+        <h2>ยินดีต้อนรับกลับมา</h2>
+        <p class="sub">เข้าสู่ระบบเพื่อจัดการคลังเกมของคุณ</p>
+
+        <form id="loginForm">
+          <div class="field">
+            <label for="loginUser">อีเมล หรือ ชื่อผู้ใช้</label>
+            <div class="input-wrap">
+              <input type="text" id="loginUser" placeholder="you@example.com" required>
+              <span class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>
+              </span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="loginPass">รหัสผ่าน</label>
+            <div class="input-wrap">
+              <input type="password" id="loginPass" placeholder="••••••••" required>
+              <span class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+              </span>
+            </div>
+          </div>
+
+          <div class="row-between">
+            <label class="remember"><input type="checkbox"> จดจำฉันไว้</label>
+            <a href="#">ลืมรหัสผ่าน?</a>
+          </div>
+
+          <button type="submit" class="btn-submit">เข้าสู่ระบบ</button>
+          <div class="error-msg" id="loginMsg"></div>
+        </form>
+
+        <div class="divider">หรือเข้าสู่ระบบด้วย</div>
+        <div class="social">
+          <button type="button">
+            <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.7-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.1-4 1.1-3.1 0-5.7-2.1-6.6-4.9H1.4v3.1C3.3 21.3 7.3 24 12 24z"/><path fill="#FBBC05" d="M5.4 14.3c-.2-.7-.4-1.5-.4-2.3s.1-1.6.4-2.3V6.6H1.4C.5 8.3 0 10.1 0 12s.5 3.7 1.4 5.4l4-3.1z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4C17.9 1.2 15.2 0 12 0 7.3 0 3.3 2.7 1.4 6.6l4 3.1C6.3 6.9 8.9 4.8 12 4.8z"/></svg>
+            Google
+          </button>
+          <button type="button">
+            <svg viewBox="0 0 24 24" fill="#f1f1fa"><path d="M12 0C5.4 0 0 5.4 0 12c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2.9-.3 2-.4 3-.4s2.1.1 3 .4c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6C20.6 21.8 24 17.3 24 12c0-6.6-5.4-12-12-12z"/></svg>
+            Discord
+          </button>
+        </div>
+
+        <p class="switch-line">ยังไม่มีบัญชี? <a href="#" data-target="register">สมัครสมาชิกฟรี</a></p>
+      </div>
+
+      <!-- REGISTER PANE -->
+      <div class="pane" id="pane-register">
+        <h2>สร้างบัญชีใหม่</h2>
+        <p class="sub">สมัครฟรี รับส่วนลดเกมแรกทันที 10%</p>
+
+        <form id="registerForm">
+          <div class="field">
+            <label for="regUser">ชื่อผู้ใช้</label>
+            <div class="input-wrap">
+              <input type="text" id="regUser" placeholder="เช่น shadowplayer99" required>
+              <span class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20c1.5-4 4-6 7.5-6s6 2 7.5 6"/></svg>
+              </span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="regEmail">อีเมล</label>
+            <div class="input-wrap">
+              <input type="email" id="regEmail" placeholder="you@example.com" required>
+              <span class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg>
+              </span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="regPass">รหัสผ่าน</label>
+            <div class="input-wrap">
+              <input type="password" id="regPass" placeholder="อย่างน้อย 8 ตัวอักษร" required>
+              <span class="icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+              </span>
+            </div>
+            <div class="strength" id="strengthBar"><i></i><i></i><i></i><i></i></div>
+          </div>
+
+          <button type="submit" class="btn-submit">สร้างบัญชี</button>
+          <div class="error-msg" id="registerMsg"></div>
+        </form>
+
+        <p class="switch-line">มีบัญชีอยู่แล้ว? <a href="#" data-target="login">เข้าสู่ระบบ</a></p>
+      </div>
+
+    </div>
+  </main>
+
 </div>
 
 <script>
-  document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
-    const errorMsg = document.getElementById('errorMsg');
+  // tab switching
+  const tabs = document.querySelectorAll('#tabs button');
+  const tabsWrap = document.getElementById('tabs');
+  const panes = document.querySelectorAll('.pane');
+  const switchLinks = document.querySelectorAll('.switch-line a');
 
-    if (username === '' || password === '') {
-      errorMsg.textContent = 'กรุณากรอกข้อมูลให้ครบ';
+  function goTo(target){
+    tabs.forEach(b => b.classList.toggle('active', b.dataset.target === target));
+    panes.forEach(p => p.classList.toggle('active', p.id === 'pane-' + target));
+    tabsWrap.classList.toggle('reg', target === 'register');
+  }
+
+  tabs.forEach(b => b.addEventListener('click', () => goTo(b.dataset.target)));
+  switchLinks.forEach(a => a.addEventListener('click', (e) => {
+    e.preventDefault();
+    goTo(a.dataset.target);
+  }));
+
+  // login submit
+  document.getElementById('loginForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const u = document.getElementById('loginUser').value.trim();
+    const p = document.getElementById('loginPass').value.trim();
+    const msg = document.getElementById('loginMsg');
+    if(!u || !p){
+      msg.textContent = 'กรุณากรอกข้อมูลให้ครบ';
+      msg.className = 'error-msg';
       return;
     }
+    msg.textContent = 'เข้าสู่ระบบสำเร็จ (ตัวอย่าง) — เชื่อมต่อ backend เพื่อใช้งานจริง';
+    msg.className = 'error-msg success-msg';
+  });
 
-    // ตรงนี้ใส่ logic เช็ค login จริง เช่น fetch ไป API
-    errorMsg.style.color = '#27ae60';
-    errorMsg.textContent = 'เข้าสู่ระบบสำเร็จ (ตวอย่าง)';
+  // register submit
+  document.getElementById('registerForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const u = document.getElementById('regUser').value.trim();
+    const em = document.getElementById('regEmail').value.trim();
+    const p = document.getElementById('regPass').value.trim();
+    const msg = document.getElementById('registerMsg');
+    if(!u || !em || !p){
+      msg.textContent = 'กรุณากรอกข้อมูลให้ครบ';
+      msg.className = 'error-msg';
+      return;
+    }
+    if(p.length < 8){
+      msg.textContent = 'รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร';
+      msg.className = 'error-msg';
+      return;
+    }
+    msg.textContent = 'สมัครสมาชิกสำเร็จ (ตัวอย่าง) — เชื่อมต่อ backend เพื่อใช้งานจริง';
+    msg.className = 'error-msg success-msg';
+  });
+
+  // password strength meter
+  const regPass = document.getElementById('regPass');
+  const bars = document.querySelectorAll('#strengthBar i');
+  const colors = ['#ff2e7e', '#ff9f43', '#00e5ff', '#2fe6a7'];
+  regPass.addEventListener('input', () => {
+    const v = regPass.value;
+    let score = 0;
+    if(v.length >= 8) score++;
+    if(/[A-Z]/.test(v) && /[a-z]/.test(v)) score++;
+    if(/[0-9]/.test(v)) score++;
+    if(/[^A-Za-z0-9]/.test(v)) score++;
+    bars.forEach((b, i) => {
+      b.style.background = i < score ? colors[score-1] : '#242539';
+    });
   });
 </script>
 
