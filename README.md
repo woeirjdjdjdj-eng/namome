@@ -1,2 +1,0 @@
-# namome
-none
